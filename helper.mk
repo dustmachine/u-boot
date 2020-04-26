@@ -49,16 +49,16 @@
 #    into " *(SORT(${line}*)); " format, which in the linker parlance
 #    will allow it to trap all symbols relevant to the subsection.
 #
-define make_u_boot_list
-$(1): $(2)
-	$(OBJDUMP) -h $(2) | \
-	sed -n -e '/.*\.u_boot_list[^ ]\+/ ! {d;n}' \
-		-e 's/.*\(\.u_boot_list[^ ]\+\).*$$$$/\1/' \
-		-e 's/\.[^\.]\+$$$$//' \
-		-e ':s /^.\+$$$$/ { p;s/^\(.*\)\.[^\.]*$$$$/\1/;b s }' | \
-	sed -n -e 'h;s/$$$$/\a/p;g;s/$$$$/@/p;g;s/$$$$/~/p;' | \
-	LC_COLLATE=C sort -u | \
-	sed -n -e '/\a$$$$/ { s/\./_/g;s/\a$$$$/__start = .;/p; }'\
-		-e '/~$$$$/ { s/\./_/g;s/~$$$$/__end = .;/p; }'\
-		-e '/@$$$$/ { s/\(.*\)@$$$$/*(SORT(\1.*));/p }' > $(1)
-endef
+#define make_u_boot_list
+#$(1): $(2)
+#	$(OBJDUMP) -h $(2) | \
+#	sed -n -e '/.*\.u_boot_list[^ ]\+/ ! d;n' \
+#		-e 's/.*\(\.u_boot_list[^ ]\+\).*$$$$/\1/' \
+#		-e 's/\.[^\.]\+$$$$//' \
+#		-e ':s /^.\+$$$$/ p;s/^\(.*\)\.[^\.]*$$$$/\1/;b s' | \
+#	sed -n -e 'h;s/$$$$/\a/p;g;s/$$$$/@/p;g;s/$$$$/~/p;' | \
+#	LC_COLLATE=C sort -u | \
+#	sed -n -e '/\a$$$$/ { s/\./_/g;s/\a$$$$/__start = .;/p; }'\
+#		-e '/~$$$$/ { s/\./_/g;s/~$$$$/__end = .;/p; }'\
+#		-e '/@$$$$/ s/\(.*\)@$$$$/*(SORT(\1.*));/p' > $(1)
+#endef
